@@ -125,7 +125,7 @@ def check_groq_credentials():
 
                 print(f"❌ Groq credentials invalid. Status: {response.status_code}")
 
-                print(f"Response: {response.json()}")
+                print(f"Response: {response.model_dump_json()}")
 
                 return False
 
