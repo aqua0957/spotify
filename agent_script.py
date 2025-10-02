@@ -1,5 +1,6 @@
 import os
 import requests
+from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -89,13 +90,16 @@ def check_groq_credentials():
 
         """
 
-        api_key = os.getenv("GROQ_API_KEY")
+        client = Groq(
+            # This is the default and can be omitted
+             api_key=os.environ.get("GROQ_API_KEY"),
+        )
 
        
 
         # Check if credentials exist
 
-        if not api_key:
+        if not client:
 
             print("❌ Missing Groq credentials in .env file")
 
@@ -105,25 +109,13 @@ def check_groq_credentials():
 
         # Test credentials by requesting a client credentials token
 
-        auth_url = "https://api.groq.com/openai/v1/chat/completions"
-
-        auth_headers = {
-
-            "Content-Type": "application/x-www-form-urlencoded"
-
-        }
-
-        auth_data = {
-            "grant_type": "client_credentials",
-        }
-
-       
+        models = client.models.list()
 
         try:
 
-            response = requests.post(auth_url, headers=auth_headers, data=auth_data)
+            response = models
 
-            if response.status_code == 200:
+            if len(response.json()) != 0:
 
                 print("✅ Groq credentials are valid")
 
