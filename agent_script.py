@@ -115,7 +115,7 @@ def check_groq_credentials():
 
             response = models
 
-            if len(response.json()) != 0:
+            if len(response.model_dump_json()) != 0:
 
                 print("✅ Groq credentials are valid")
 
